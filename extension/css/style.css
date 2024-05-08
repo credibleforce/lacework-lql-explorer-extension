@@ -1,0 +1,19 @@
+.container, .container-fluid, .row{
+    margin: 1.5em;
+}
+
+.result {
+    margin-top: 1em;
+}
+
+div.dataTables_length {
+    float: left;
+}
+
+div.dataTables_filter {
+    float: right;
+}
+
+div.dropdown-menu {
+    width: 550px;
+}

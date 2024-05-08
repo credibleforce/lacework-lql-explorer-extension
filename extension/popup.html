@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lacework LQL Explorer</title>
+    <style>
+        html
+        {
+            width: 100%;  /* max: 800px */
+            height: 100%;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="css/prism.css">
+
+    <script type="text/javascript" src="scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="scripts/popper.min.js"></script>
+    <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="scripts/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="scripts/dataTables.js"></script>
+    <script type="text/javascript" src="scripts/dataTables.buttons.js"></script>
+    <script type="text/javascript" src="scripts/buttons.dataTables.js"></script>
+    <script type="text/javascript" src="scripts/jszip.min.js"></script>
+    <script type="text/javascript" src="scripts/pdfmake.min.js"></script>
+    <script type="text/javascript" src="scripts/vfs_fonts.js"></script>
+    <script type="text/javascript" src="scripts/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="scripts/buttons.print.min.js"></script>
+    <script type="text/javascript" src="scripts/moment.min.js"></script>
+    <script type="text/javascript" src="scripts/daterangepicker.min.js"></script>
+    <script src="scripts/prism.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-light bg-light justify-content-between">
+      <a class="navbar-brand" href="#">LQL Explorer</a>
+      <form class="form-inline">
+        <button type="button" class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal" data-target="#laceworkAPISettings">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"></path>
+            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"></path>
+          </svg>
+        </button>
+      </form>
+    </nav>
+   
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <div class="float-left">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              Show Query
+            </button>
+          </div>
+        </div>
+        <div class="col">
+          <!-- Button trigger modal -->
+          <div class="float-right">
+            <button id="search_button" type="button" class="btn btn-primary">
+              Run Query
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">LQL Query</label>
+            <div class="form-group">
+              <label for="lqlTimeRange">Time Range</label>
+              <input class="form-control" type="text" id="lqlTimeRange" />
+            </div>
+            <div class="form-group">
+              <label for="lqlSource">Source (<em>alias s</em>)</label>
+              <div class="form-group">
+                <select class="form-control" data-container="body" data-live-search="true" id="lqlSource"></select>
+                <button type="button" id="previewSource" class="btn btn-success">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"></path>
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"></path>
+                  </svg>
+                </button>
+              </div>
+              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#lqlAdvancedSource" aria-expanded="true" aria-controls="lqlAdvancedSource">
+                Show Advanced
+              </button>
+              <div class="form-group">
+                <div class="collapse" id="lqlAdvancedSource">
+                  <div class="card card-body">
+                    <div class="form-group">
+                      <textarea class="form-control" id="lqlAdvancedSourceInput" rows="3" placeholder="Example join where source is LW_CFG_AWS_IAM_USERS: with LW_CFG_AWS_IAM_USERS_LIST_POLICIES inline"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lqlFilter">Filter</label>
+              <textarea class="form-control" id="lqlFilter" rows="3" placeholder="Example: CONTAINS(RESOURCE_CONFIG, &quot;some value&quot;)"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="lqlReturn">Return</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="lqlReturnDistinct">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Distinct
+                </label>
+              </div>
+              <textarea class="form-control" id="lqlReturn" rows="3" placeholder="s.*"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="container-fluid overflow-auto">
+      <table id="lql-table" class="table table-hover" style="width:100%">
+        <thead class="thead-light">
+            <!-- Header row will be dynamically inserted here -->
+        </thead>
+        <tbody>
+            <!-- Body row will be dynamically inserted here -->
+        </tbody>
+      </table>
+    </div>
+    <!-- Modal -->
+    <div id="queryLoader" class="modal bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-xl d-flex justify-content-center" style="align-items: center;">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+      </div>
+    </div>
+    <div class="modal fade" id="userMessageDialog" tabindex="-1" role="dialog" aria-labelledby="userMessageDialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            message
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="previewSourceContent" tabindex="-1" role="dialog" aria-labelledby="previewSourceContent" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Preview Source</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <pre class="language-javascript">
+              <code id="preview" class="language-javascript"></code>
+            </pre>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="laceworkAPISettings" tabindex="-1" role="dialog" aria-labelledby="laceworkAPISettings" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Lacework API Setting</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col">
+                <label for="laceworkAccountName">Lacework Account Name</label>
+                <input type="text" id="laceworkAccountName" class="form-control" placeholder="example.lacework.net" aria-label="Lacework Account Name">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="laceworkAPIKey">Lacework API Key</label>
+                <input type="text" id="laceworkAPIKey" class="form-control" aria-label="Lacework API Key">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="laceworkAPISecretKey">Lacework API Secret</label>
+                <input type="password" id="laceworkAPISecretKey" class="form-control" aria-label="Lacework API Secret">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" id="laceworkAPISettingsSave" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
