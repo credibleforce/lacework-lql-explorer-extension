@@ -3,7 +3,7 @@ name: Build and Release Chrome Extension
 on:
   push:
     tags:
-      - 'v*.*.*'  # This pattern matches tags like v1.0.0, v20.15.10, etc.
+      - 'v*'  # This pattern matches tags like v1.0.0, v20.15.10, etc.
 
 jobs:
   build:
@@ -23,18 +23,30 @@ jobs:
       with:
         # zip file made at the packExtensionDir step
         zipFilePath: 'build/extension-${{ github.ref_name }}.zip'
-        crxFilePath: 'build/extension-${{ github.ref_name }}.crx'
+        crxFilePath: 'extension-${{ github.ref_name }}.crx'
         privateKey: ${{ secrets.CRX_PRIVATE_KEY }}
         # The following is optional if you need update.xml file
         # updateXmlPath: 'build/update.xml'
         # updateXmlCodebaseUrl: 'https://server.com/extension.crx'
 
-    - name: Upload CRX Artifact to GitHub Release
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    
+    - name: Upload Release Asset
+      id: upload-release-asset 
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: './extension-${{ github.ref_name }}.crx'
-        asset_name: 'extension-${{ github.ref_name }}.crx'
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./extension-${{ github.ref_name }}.crx
+        asset_name: extension-${{ github.ref_name }}.crx
         asset_content_type: 'application/x-chrome-extension'
