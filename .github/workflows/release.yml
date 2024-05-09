@@ -21,12 +21,12 @@ jobs:
       uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
       with:
         extensionDir: 'extension'
-        zipFilePath: 'build/lacework-lql-explorer-${{ github.ref_name }}.zip'
+        zipFilePath: 'lacework-lql-explorer-${{ github.ref_name }}.zip'
 
     - uses: cardinalby/webext-buildtools-chrome-crx-action@v2
       with:
         # zip file made at the packExtensionDir step
-        zipFilePath: 'build/lacework-lql-explorer-${{ github.ref_name }}.zip'
+        zipFilePath: 'lacework-lql-explorer-${{ github.ref_name }}.zip'
         crxFilePath: 'lacework-lql-explorer-${{ github.ref_name }}.crx'
         privateKey: ${{ secrets.CRX_PRIVATE_KEY }}
         # The following is optional if you need update.xml file
@@ -53,4 +53,15 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./lacework-lql-explorer-${{ github.ref_name }}.crx
         asset_name: lacework-lql-explorer-${{ github.ref_name }}.crx
+        asset_content_type: 'application/x-chrome-extension'
+    
+    - name: Upload Release Asset
+      id: upload-release-asset-zip 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./lacework-lql-explorer-${{ github.ref_name }}.zip
+        asset_name: lacework-lql-explorer-${{ github.ref_name }}.zip
         asset_content_type: 'application/x-chrome-extension'
