@@ -199,13 +199,11 @@ async function runQuery() {
         dt.on('page', function () {
             setTimeout(function() {
                 Prism.highlightAll();
-                dt.columns.adjust().draw();
             }, 100);
         });
         dt.on('order', function () {
             setTimeout(function() {
                 Prism.highlightAll();
-                dt.columns.adjust().draw();
             }, 100);
         });
         // $('#lql-table').DataTable().columns.adjust().draw();
