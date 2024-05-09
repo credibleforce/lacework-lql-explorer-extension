@@ -51,6 +51,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./extension-${{ github.ref_name }}.crx
-        asset_name: extension-${{ github.ref_name }}.crx
+        asset_path: ./lacework-lql-explorer-${{ github.ref_name }}.crx
+        asset_name: lacework-lql-explorer-${{ github.ref_name }}.crx
         asset_content_type: 'application/x-chrome-extension'
