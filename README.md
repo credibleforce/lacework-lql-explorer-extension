@@ -18,7 +18,7 @@ Currently this extension is in development and as such has yet to be published t
 10. When ready click the `Run Query` button to execute the query.
 11. Results will be disabled in the `DataTable` at the bottom.
 
-## Known limitation
+## Known Limitations
 
 1. LQL Data Source queries are limited to 5000 rows
 2. DataTable explort may fail if the number of columns and data exceeds the memory limit in chrome. In this case reduce the number of fields or data.
