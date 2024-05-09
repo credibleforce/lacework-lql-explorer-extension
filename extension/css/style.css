@@ -17,3 +17,20 @@ div.dataTables_filter {
 div.dropdown-menu {
     width: 550px;
 }
+
+
+/* Important part */
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 80vh;
+    overflow-y: auto;
+}
+
+pre.language-javascript {
+    max-height: 750px;
+    max-width: 750px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}

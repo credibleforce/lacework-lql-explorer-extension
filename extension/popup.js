@@ -144,9 +144,9 @@ async function runQuery() {
                 var headerRow  = document.createElement('tr');
                 Object.keys(data.data[row]).forEach(key => {
                     if (columnFilters.length == 0 || (columnFilters.length > 0 && columnFilters.includes(key))){
-                    var header = document.createElement('th');
-                    header.textContent = key;
-                    headerRow.appendChild(header);
+                        var header = document.createElement('th');
+                        header.textContent = key;
+                        headerRow.appendChild(header);
                     }
                 });
                 tableHeader.appendChild(headerRow)
@@ -158,29 +158,58 @@ async function runQuery() {
             // Data rows
             var dataRow  = document.createElement('tr');
             Object.keys(data.data[row]).forEach(key => {
-            if (columnFilters.length == 0 || (columnFilters.length > 0 && columnFilters.includes(key))){
-                var cell = document.createElement('td');
-                dataRow.appendChild(cell)
-                if (typeof data.data[row][key] === 'object') {
-                    const pre = document.createElement('pre');
-                    pre.textContent = JSON.stringify(data.data[row][key], null, 2);
-                    cell.appendChild(pre);
-                } else {
-                    cell.textContent = data.data[row][key];
+                if (columnFilters.length == 0 || (columnFilters.length > 0 && columnFilters.includes(key))){
+                    var cell = document.createElement('td');
+                    cell.classList.add('overflow-auto');
+                    dataRow.appendChild(cell)
+                    if (typeof data.data[row][key] === 'object' && data.data[row][key] !== null) {
+                        const pre = document.createElement('pre');
+                        pre.classList.add('language-javascript');
+                        const code = document.createElement('code');
+                        code.classList.add('language-javascript')
+                        code.textContent = JSON.stringify(data.data[row][key], null, 2);
+                        pre.appendChild(code);
+                        cell.appendChild(pre);
+                    } else {
+                        if (data.data[row][key] !== null){
+                            cell.textContent = data.data[row][key];
+                        }else{
+                            cell.innerHTML = "&nbsp;";
+                        }
+                    }
                 }
-            }
             });
             tableBody.appendChild(dataRow);
         });
-        dt = new DataTable('#lql-table', {
-            layout: {
-                topStart: {
-                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-                }
-            },
-            scrollX: true,
-            pagingType: 'full'
-        })
+        DataTable.ext.errMode = 'none';
+        dt = $('#lql-table')
+            .on('error.dt', function (e, settings, techNote, message) {
+                console.log('An error has been reported by DataTables: ', message);
+            }).DataTable({
+                layout: {
+                    topStart: {
+                        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                    }
+                },
+                fixedColumns: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pagingType: 'full'
+            });
+        dt.on('page', function () {
+            setTimeout(function() {
+                Prism.highlightAll();
+                dt.columns.adjust().draw();
+            }, 100);
+        });
+        dt.on('order', function () {
+            setTimeout(function() {
+                Prism.highlightAll();
+                dt.columns.adjust().draw();
+            }, 100);
+        });
+        // $('#lql-table').DataTable().columns.adjust().draw();
+        Prism.highlightAll();
     } catch (error) {
         console.log(error)
         $('#userMessageDialog .modal-title').text("Error");
@@ -262,17 +291,19 @@ $( document ).ready(function() {
         startDate: moment().add(-24,'hour'),
         endDate: moment(),
         locale: {
-        format: 'YYYY/MM/DD hh:mm A'
+            format: 'YYYY/MM/DD hh:mm A'
         }
     });
 
     // init data tables
     dt = new DataTable('#lql-table', {
         layout: {
-        topStart: {
-            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-        }
+            topStart: {
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+            }
         },
+        fixedColumns: true,
+        scrollCollapse: true,
         scrollX: true,
         pagingType: 'full'
     })
@@ -292,4 +323,11 @@ $( document ).ready(function() {
             loadDataSources();
         }
     });
-})
+});
+
+window.onerror = function(error, url, line) {
+    $('#userMessageDialog .modal-title').text("Error")
+    $('#userMessageDialog .modal-body').text(`Datatable action failed: ${error}`);
+    $('#userMessageDialog').modal('show');
+    return true;
+};
