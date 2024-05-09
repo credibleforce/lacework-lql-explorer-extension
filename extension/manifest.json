@@ -7,9 +7,7 @@
     "48": "icon.png",
     "128": "icon.png"
   },
-  "host_permissions": [
-    "<all_urls>"
-  ],
+  "host_permissions": [],
   "permissions": ["tabs", "cookies", "storage", "system.display"],
   "action": { 
   },
