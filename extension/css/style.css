@@ -24,7 +24,7 @@ div.dropdown-menu {
     overflow-y: initial !important
 }
 .modal-body{
-    height: 80vh;
+    height: 60vh;
     overflow-y: auto;
 }
 
