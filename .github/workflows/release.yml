@@ -12,14 +12,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
   
-    - name: Create CRX File
-      uses: notlmn/browser-extension-release-action@v1
+    # pack zip and read manifest, can be reused in the following steps
+    - id: packExtensionDir
+      uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
       with:
-        extension-root: ./dist  # Adjust if your build outputs to a different directory
-        artifact-name: 'extension-${{ github.ref_name }}.crx'
-        export-crx: true
-      env:
-        CRX_PRIVATE_KEY: ${{ secrets.CRX_PRIVATE_KEY }}
+        extensionDir: 'extension'
+        zipFilePath: 'build/extension-${{ github.ref_name }}.zip'
+
+    - uses: cardinalby/webext-buildtools-chrome-crx-action@v2
+      with:
+        # zip file made at the packExtensionDir step
+        zipFilePath: 'build/extension-${{ github.ref_name }}.zip'
+        crxFilePath: 'build/extension-${{ github.ref_name }}.crx'
+        privateKey: ${{ secrets.CRX_PRIVATE_KEY }}
+        # The following is optional if you need update.xml file
+        # updateXmlPath: 'build/update.xml'
+        # updateXmlCodebaseUrl: 'https://server.com/extension.crx'
 
     - name: Upload CRX Artifact to GitHub Release
       uses: actions/upload-release-asset@v1
