@@ -1,7 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Lacework LQL Explorer",
-  "version": "0.0.1",
+  "description": "Explore Lacework LQL Datasources",
+  "version": "0.0.4",
   "icons": {
     "16": "icon.png",
     "48": "icon.png",
