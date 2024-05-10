@@ -206,6 +206,12 @@ async function runQuery() {
                 Prism.highlightAll();
             }, 100);
         });
+        dt.on('search.dt', function () {
+            setTimeout(function() {
+                Prism.highlightAll();
+            }, 100);
+        });
+        
         // $('#lql-table').DataTable().columns.adjust().draw();
         Prism.highlightAll();
     } catch (error) {
