@@ -32,8 +32,8 @@ async function previewSource() {
                 s.*
             }
         }`.replace(/\r?\n|\r/g, " ");
-        const startTime = new Date(Date.now() - 24*60*60*1000).toISOString();
-        const endTime = new Date().toISOString();
+        var startDate = $('#lqlTimeRange').data('daterangepicker').startDate.toISOString();
+        var endDate = $('#lqlTimeRange').data('daterangepicker').endDate.toISOString();
         const queryData = {
             query: {
                 queryText: lqlQueryText
@@ -42,8 +42,8 @@ async function previewSource() {
                 limit: 1
             },
             arguments: [
-                { name: "StartTimeRange", value: startTime },
-                { name: "EndTimeRange", value: endTime }
+                { name: "StartTimeRange", value: startDate },
+                { name: "EndTimeRange", value: endDate }
             ]
         };
         const data = await new Promise((resolve, reject) => {
